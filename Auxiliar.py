@@ -1,7 +1,6 @@
 
 def drop(): 
-    print("Get the DUCK out of here!")
-    return False 
+    print("Get the DUCK out of here!") 
     exit(0) 
 
 ## Quita el 0x del cast a hex y agrega 0 de ser necesario
@@ -17,7 +16,7 @@ def hexValidate(bytesAmount):
 def validate(chain): 
 
     chainLen = len(chain)
-    bytesAmount = str(hex(int(chainLen / 2))) 
+    bytesAmount = str(hex(int((chainLen / 2)-7))) 
     bytesAmount = hexValidate(bytesAmount)
     
 
@@ -46,7 +45,7 @@ def validate(chain):
     return True
 
 
-chain = "78781Aecjkj232323hjk0D0A78781Aecjkj23hjk0D0A3hjk0D0A"
+chain = "78780A01ANDRESESPAPUSI00018CDD0D0A"
 
 validate(chain)
     

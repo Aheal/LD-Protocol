@@ -76,6 +76,28 @@ class Login(abstractPackage):
     def nepe(self): 
         abstractPackage.nepe(self)
 
+class LocationData():
+
+    def __init__(self):
+        pass
+
+
+    def GPS_HR(self,hex):
+        a = int(hex,16)
+        b= a/30000.0
+        degrees = b//60
+        minutes = b%60
+        print (degrees, ' degrees and ', round(minutes,4), 'minutes' )
+
+
+
+data = LocationData()
+print(data.GPS_HR("26B3F3E"))
+
+
+
+
+
 
 nepe = abstractPackage("78780D01ROMANES00018CDD0D0A") 
 
