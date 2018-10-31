@@ -48,7 +48,7 @@ class LocationData(object):
         #numeros de satelites
         self.__satellites = int(self.__cantSatellitesGPS[2])
         #informacion de la direccion
-        self.__course = hextobin(self.__courseStatus)
+        self.__course = self.hextobin(self.__courseStatus)
 
         if self.__course[2] == '1':
             self.__GPSstatus = "real-time"
