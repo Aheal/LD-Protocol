@@ -27,26 +27,26 @@ class LocationData(object):
 
     #Separacion de la fecha
     def dateTime(self):
-        self.__Year = int(self.__dateTime[:2],10)
-        self.__Month = int(self.__dateTime[3:5],10)
-        self.__Day = int(self.__dateTime[5:7],10)
-        self.__Hour = int(self.__dateTime[7:9],10)
-        self.__Minute = int(self.__dateTime[9:11],10)
-        self.__Second = int(self.__dateTime[11:13],10)
+        self.__Year = int(self.__dateTime[:2],16)
+        self.__Month = int(self.__dateTime[3:5],16)
+        self.__Day = int(self.__dateTime[5:7],16)
+        self.__Hour = int(self.__dateTime[7:9],16)
+        self.__Minute = int(self.__dateTime[9:11],16)
+        self.__Second = int(self.__dateTime[11:13],16)
 
     def hextobin(self,cadena):
         my_hexdata = cadena
         scale = 16 ## equals to hexadecimal
-        num_of_bits = 16
+        num_of_bits = len(cadena)
         x = bin(int(my_hexdata, scale))[2:].zfill(num_of_bits)
         return x  
     
     #infomcion de la direccion en el GPS
     def GPSinfo(self):
         #numero de bits en la informacion de GPS
-        self.__lenghtGPSinfo = int(self.__cantSatellitesGPS[1])
+        self.__lenghtGPSinfo = int(self.__cantSatellitesGPS[1],16)
         #numeros de satelites
-        self.__satellites = int(self.__cantSatellitesGPS[2])
+        self.__satellites = int(self.__cantSatellitesGPS[2],16)
         #informacion de la direccion
         self.__course = self.hextobin(self.__courseStatus)
 
@@ -66,5 +66,10 @@ class LocationData(object):
             self.__GPSlatituddir = "North Latitud"
         else:
            self.__GPSlatituddir = "South Latitud"
-        self.__courseDegrees = int(self.__course,10)
+        
+        self.__courseDegrees = int(self.__course,16)
+    
+        #self.__degreesLatitud = self.GPS_HR(self.__latitud)
+        #self.__degreesLongitud = self.GPS_HR(self.__longitud)
+        self.__decimalSpeed = int(self.__speed,16)
         
