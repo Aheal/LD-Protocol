@@ -10,17 +10,17 @@ class LocationData(object):
         print(self.__dateTime)
         self.dateTime()
 
-        self.__cantSatellitesGPS = infCont[13:15]
-        self.__latitud = infCont[15:23]
-        self.__longitud = infCont[23:31]
-        self.__speed = infCont[31:33]
-        self.__courseStatus = infCont[33:37]
+        self.__cantSatellitesGPS = infCont[12:14]
+        self.__latitud = infCont[14:22]
+        self.__longitud = infCont[22:30]
+        self.__speed = infCont[30:32]
+        self.__courseStatus = infCont[32:36]
         self.GPSinfo()
         #LBS INFORMATION
-        self.__MCC = infCont[37:41]
-        self.__MNC = infCont[41:43]
-        self.__LAC = infCont[43:47]
-        self.__CellID = infCont[47:53]
+        self.__MCC = infCont[36:40]
+        self.__MNC = infCont[40:42]
+        self.__LAC = infCont[42:46]
+        self.__CellID = infCont[46:52]
 
 
     def GPS_HR(self,hex):
@@ -34,11 +34,11 @@ class LocationData(object):
     def dateTime(self):
         #Pedos para convertir directo de hexa a int
         self.__Year = "20"+str(int(self.__dateTime[:2],16))
-        self.__Month =  str(int(self.__dateTime[3:5],16))
-        self.__Day = str(int(self.__dateTime[5:7],16))
-        self.__Hour = str(int(self.__dateTime[7:9],16))
-        self.__Minute = str(int(self.__dateTime[9:11],16))
-        self.__Second = str(int(self.__dateTime[11:13],16))
+        self.__Month =  str(int(self.__dateTime[2:4],16))
+        self.__Day = str(int(self.__dateTime[4:6],16))
+        self.__Hour = str(int(self.__dateTime[6:8],16))
+        self.__Minute = str(int(self.__dateTime[8:10],16))
+        self.__Second = str(int(self.__dateTime[10:12],16))
 
 
 
