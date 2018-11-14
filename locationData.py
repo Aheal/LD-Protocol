@@ -7,7 +7,6 @@ class LocationData(object):
     def procesar(self,infCont):
         #GPS INFORMATION
         self.__dateTime = infCont[:12]
-        print(self.__dateTime)
         self.dateTime()
 
         self.__cantSatellitesGPS = infCont[12:14]

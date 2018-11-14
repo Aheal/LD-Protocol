@@ -5,19 +5,19 @@ class variable (object):
         self.__pLen,self.__poNum,self.__infCont,self.__infSerialNum,self.__errChk = self.mochar() 
         
 
-def mochar(self):
+    def mochar(self):
 
-        temp = self.__chain[4:] 
-        pLen = temp[:2]
+            temp = self.__chain[4:] 
+            pLen = temp[:2]
 
-        temp = self.__chain[6:] 
-        poNum = temp[:2]
-        
-        infCont = self.__chain[8:-12]
+            temp = self.__chain[6:] 
+            poNum = temp[:2]
+            
+            infCont = self.__chain[8:-12]
 
-        temp = self.__chain[-4:] 
-        errChk = temp[-4:]
+            temp = self.__chain[-4:] 
+            errChk = temp[-4:]
 
-        temp = self.__chain[-8:]
-        infSerialNum = temp[:-4] 
-        return pLen, poNum, infCont, infSerialNum, errChk 
+            temp = self.__chain[-8:]
+            infSerialNum = temp[:-4] 
+            return pLen, poNum, infCont, infSerialNum, errChk 
