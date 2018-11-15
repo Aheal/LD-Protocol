@@ -1,7 +1,32 @@
 class AlarmData(object):
 
-    def __init__(self,chainmochada):
-        self.__infCont = chainmochada
+    
+    def __init__(self,infCont):
+        self.procesar(infCont)
+
+    def procesar(self,infCont):
+        #GPS INFORMATION
+        self.__dateTime = infCont[:12]
+        self.dateTime()
+
+        self.__cantSatellitesGPS = infCont[12:14]
+        self.__latitud = infCont[14:22]
+        self.__longitud = infCont[22:30]
+        self.__speed = infCont[30:32]
+        self.__courseStatus = infCont[32:36]
+        self.GPSinfo()
+        #LBS INFORMATION
+        self.__MCC = infCont[36:40]
+        self.__MNC = infCont[40:42]
+        self.__LAC = infCont[42:46]
+        self.__CellID = infCont[46:52]
+
+        #status information
+        self.__terminalInfCont=infCont[52:54]
+        self.__voltageLevel=infCont[54:56]
+        self.__GSMsignalStrength=infCont[56:58]
+        self.__alarmLanguage=infCont[58:62]
+        self.Statusinfo()
 
 
     def GPS_HR(self,hex):
@@ -9,39 +34,19 @@ class AlarmData(object):
         b= a/30000.0
         degrees = b//60
         minutes = b%60
-        print (degrees, ' degrees and ', round(minutes,4), 'minutes' )
-    
-    #asignacion de partes del paquete Alarm Data
-    def assignarMain(self):
-        self.__dateTime = self.__infCont[12:]
-        #GPS Information
-        self.__cantSatellitesGPS = self.__infCont[12:14]
-        self.__latitud = self.__infCont[14:22]
-        self.__longitud = self.__infCont[22:30]
-        self.__speed = self.__infCont[30:32]
-        self.__courseStatus = self.__infCont[32:36]
-        #LBS Information
-        self.__LBSlength = self.__infCont[36:38]
-        self.__MCC = self.__infCont[38:42]
-        self.__MNC = self.__infCont[42:44]
-        self.__LAC = self.__infCont[44:48]
-        self.__CellID = self.__infCont[48:54]
-        #statusInformation
-        self.__terminalInfCont=self.__infCont[54:56]
-        self.__voltageLevel=self.__infCont[56:58]
-        self.__GSMsignalStrength=self.__infCont[58:60]
-        self.__alarmLanguage=self.__infCont[60:64]
+        print (degrees, ' degrees and ', round(minutes,4), 'minutes' )        
 
-
-
-    #Separacion de la fecha
+    #Separacion de dateTime por partes
     def dateTime(self):
+        #Pedos para convertir directo de hexa a int
         self.__Year = "20"+str(int(self.__dateTime[:2],16))
         self.__Month =  str(int(self.__dateTime[2:4],16))
         self.__Day = str(int(self.__dateTime[4:6],16))
         self.__Hour = str(int(self.__dateTime[6:8],16))
         self.__Minute = str(int(self.__dateTime[8:10],16))
         self.__Second = str(int(self.__dateTime[10:12],16))
+
+
 
     def hextobin(self,cadena):
         my_hexdata = cadena
@@ -53,9 +58,10 @@ class AlarmData(object):
     #infomcion de la direccion en el GPS
     def GPSinfo(self):
         #numero de bits en la informacion de GPS
-        self.__lenghtGPSinfo = int(self.__cantSatellitesGPS[1])
+        self.__lenghtGPSinfo = (self.__cantSatellitesGPS[0])
         #numeros de satelites
-        self.__satellites = int(self.__cantSatellitesGPS[2])
+        self.__satellites = (self.__cantSatellitesGPS[1])
+
         #informacion de la direccion
         self.__course = self.hextobin(self.__courseStatus)
 
@@ -76,9 +82,8 @@ class AlarmData(object):
         else:
            self.__GPSlatituddir = "South Latitud"
         self.__courseDegrees = int(self.__course,10)
-        
 
-    #status information formating
+#status information formating
     def Statusinfo(self):
         #Terminal information     
         self.__terminalInfCont = self.hextobin(self.__terminalInfCont)
@@ -99,25 +104,7 @@ class AlarmData(object):
         else:
             self.__voltageLevel  = "FORMAT ERROR"
            
-        #numeros de satelites
-        self.__satellites = int(self.__cantSatellitesGPS[2])
-        #informacion de la direccion
-        self.__course = self.hextobin(self.__courseStatus)
-
-        if self.__course[2] == '1':
-            self.__GPSstatus = "real-time"
-        else:
-           self.__GPSstatus = "differential position" 
-        if self.__course[3] == '1':
-            self.__GPSposition = "GPS is positioned"
-        else:
-           self.__GPSposition = "GPS is not positioned"
-        if self.__course[4] == '1':
-            self.__GPSlongituddir = "East Longitud"
-        else:
-           self.__GPSlongituddir = "West Longitud"
-        if self.__course[5] == '1':
-            self.__GPSlatituddir = "North Latitud"
-        else:
-           self.__GPSlatituddir = "South Latitud"
-        self.__courseDegrees = int(self.__course,10)
+        
+    def information(self):
+        #return "Location Data Packet \nGPS Information \nDateTime: ",self.__Year, "-" ,self.__Month ,"-"+ self.__Day ," " ,self.__Hour ,":",self.__Minute,";",self.__Second,"\nQUACK"
+        return "Alarm Data Packet \nGPS Information \nDateTime: " + self.__Year+ "-" +self.__Month +"-"+ self.__Day + " " +self.__Hour +":"+self.__Minute+";"+self.__Second+"\n"+"Lenght of GPS information: "+self.__lenghtGPSinfo+" Number of satelites: "+self.__satellites+"\n"   +"Latitud: " + self.__latitud + " Longitud: " + self.__longitud + "\n"        +"Speed: " + self.__speed + " Course Status: " + self.__courseStatus + "\n"+"LBS Information \n"        +"MCC: " + self.__MCC + " MNC: " + self.__MNC + "\n"+"LAC: " + self.__LAC + " Cell ID: " + self.__CellID + "\n"+"Terminal Information Content: "+ self.__terminalInfCont+"\n"+"Voltage Level: "+self.__voltageLevel1+" GSM Signal Strength: "+self.__GSMsignalStrength+"\n"+"Alarm/Language: "+self.__alarmLanguage+"\n"+"¡QUAK!"
