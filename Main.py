@@ -13,7 +13,7 @@ def hexValidate(bytesAmount):
 def validate(chain):
     chainLen = len(chain)-10
     bytesAmount = str(hex(int(chainLen / 2))) 
-    bytesAmount = hexValidate(bytesAmount)
+    bytesAmount = int(hexValidate(bytesAmount))
     
     start = chain[:4]   
     if start != "7878": return False 
@@ -43,7 +43,9 @@ def LittlestDuck(chain):
 #Mensaje de tipo LogIn
 #chain = "78780D01012345678901234500018CDD0D0A"
 #Mensaje de tipo Location Data
-chain = "78781F120B081D112E10CC027AC7EB0C46584900148F01CC00287D001FB8000380810D0A"
+#chain = "78781F120B081D112E10CC027AC7EB0C46584900148F01CC00287D001FB8000380810D0A"
+#Mensaje de tipo Alarm Data
+chain = "787825160B0B0F0E241DCF027AC8870C4657E60014020901CC00287D001F726506040101003656A40D0A"
 
 LittlestDuck(chain)
     
