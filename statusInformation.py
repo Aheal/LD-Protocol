@@ -4,10 +4,10 @@ class StatusInformation(object):
 
     def procesar(self,infCont):
         #status information
-        self.__terminalInfCont=infCont[52:54]
-        self.__voltageLevel=infCont[54:56]
-        self.__GSMsignalStrength=infCont[56:58]
-        self.__alarmLanguage=infCont[58:62]
+        self.__terminalInfCont=infCont[0:2]
+        self.__voltageLevel=infCont[2:4]
+        self.__GSMsignalStrength=infCont[4:6]
+        self.__alarmLanguage=infCont[6:10]
         self.Statusinfo()
 
     def hextobin(self,cadena):
@@ -21,7 +21,6 @@ class StatusInformation(object):
 #status information formating
     def Statusinfo(self):
         #Terminal information     
-        self.__terminalInfCont = self.hextobin(self.__terminalInfCont)
         if self.__voltageLevel == '00':
             self.__voltageLevel  = "No power(shutdown)"
         elif self.__voltageLevel == '01':
@@ -41,4 +40,4 @@ class StatusInformation(object):
            
         
     def information(self):
-        return "Status Information Data Packet" +"Terminal Information Content: "+ self.__terminalInfCont+"\n"+"Voltage Level: "+self.__voltageLevel1+" GSM Signal Strength: "+self.__GSMsignalStrength+"\n"+"Alarm/Language: "+self.__alarmLanguage+"\n"+"¡QUAK!"
+        return "Status Information Data Packet " + self.__terminalInfCont+"\n"+"Voltage Level: "+self.__voltageLevel+" GSM Signal Strength: "+self.__GSMsignalStrength+"\n"+"Alarm/Language: "+self.__alarmLanguage+"\n"+"¡QUAK!"
