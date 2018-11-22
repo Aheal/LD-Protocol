@@ -35,23 +35,27 @@ def validate(chain):
 
 #Main del protocolo, pensado para ser repetido, recibiendo un mensaje validandolo y generando una respuesta
 def LittlestDuck(chain): 
-
+    
+    print(chain)
+    print(type(chain)) 
+    chain = chain.decode()
+    print(chain)
+    print(type(chain))     
     if(validate(chain)):
         creator=concreteCreator()
         respuesta=creator.factory(chain)
-        print(respuesta)
+        return(respuesta)
     else: 
         respuesta="GET THE DUCK OUT OF HERE"
-        print(respuesta)
+        return(respuesta)
 
 #Mensaje de tipo LogIn
 chain = "78780D01012345678901234500018CDD0D0A"
 #Mensaje de tipo Location Data
-chain = "78781F120B081D112E10CC027AC7EB0C46584900148F01CC00287D001FB8000380810D0A"
+#chain = "78781F120B081D112E10CC027AC7EB0C46584900148F01CC00287D001FB8000380810D0A"
 #Mensaje de tipo Alarm Data
 chain = "787825160B0B0F0E241DCF027AC8870C4657E60014020901CC00287D001F726506040101003656A40D0A"
 #Mensaje de tipo Status Information
 chain = "78780A134B040300010011061F0D0A"
 
-LittlestDuck(chain)
-    
+#LittlestDuck(chain)
