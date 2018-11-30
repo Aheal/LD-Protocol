@@ -1,4 +1,4 @@
-class LocationData(object):
+class AlarmData(object):
 
     
     def __init__(self,infCont):
@@ -20,6 +20,13 @@ class LocationData(object):
         self.__MNC = infCont[40:42]
         self.__LAC = infCont[42:46]
         self.__CellID = infCont[46:52]
+
+        #status information
+        self.__terminalInfCont=infCont[52:54]
+        self.__voltageLevel=infCont[54:56]
+        self.__GSMsignalStrength=infCont[56:58]
+        self.__alarmLanguage=infCont[58:62]
+        self.Statusinfo()
 
 
     def GPS_HR(self,hex):
@@ -75,7 +82,29 @@ class LocationData(object):
         else:
            self.__GPSlatituddir = "South Latitud"
         self.__courseDegrees = int(self.__course,10)
+
+#status information formating
+    def Statusinfo(self):
+        #Terminal information     
+        self.__terminalInfCont = self.hextobin(self.__terminalInfCont)
+        if self.__voltageLevel == '00':
+            self.__voltageLevel  = "No power(shutdown)"
+        elif self.__voltageLevel == '01':
+            self.__voltageLevel  = "Extreme Low Battery"
+        elif self.__voltageLevel == '02':
+            self.__voltageLevel  = "Very Low Battery"
+        elif self.__voltageLevel == '03':
+            self.__voltageLevel  = "Low Battery"
+        elif self.__voltageLevel == '04':
+            self.__voltageLevel  = "Medium"
+        elif self.__voltageLevel == '05':
+            self.__voltageLevel  = "High"
+        elif self.__voltageLevel == '06':
+            self.__voltageLevel  = "Very High"
+        else:
+            self.__voltageLevel  = "FORMAT ERROR"
+           
         
     def information(self):
         #return "Location Data Packet \nGPS Information \nDateTime: ",self.__Year, "-" ,self.__Month ,"-"+ self.__Day ," " ,self.__Hour ,":",self.__Minute,";",self.__Second,"\nQUACK"
-        return "Location Data Packet \nGPS Information \nDateTime: " + self.__Year+ "-" +self.__Month +"-"+ self.__Day + " " +self.__Hour +":"+self.__Minute+";"+self.__Second+"\n"+"Lenght of GPS information: "+self.__lenghtGPSinfo+" Number of satelites: "+self.__satellites+"\n"   +"Latitud: " + self.__latitud + " Longitud: " + self.__longitud + "\n"        +"Speed: " + self.__speed + " Course Status: " + self.__courseStatus + "\n"+"LBS Information \n"        +"MCC: " + self.__MCC + " MNC: " + self.__MNC + "\n"+"LAC: " + self.__LAC + " Cell ID: " + self.__CellID + "\n"+"¡QUAK!"
+        return "Alarm Data Packet \nGPS Information \nDateTime: " + self.__Year+ "-" +self.__Month +"-"+ self.__Day + " " +self.__Hour +":"+self.__Minute+";"+self.__Second+"\n"+"Lenght of GPS information: "+self.__lenghtGPSinfo+" Number of satelites: "+self.__satellites+"\n"   +"Latitud: " + self.__latitud + " Longitud: " + self.__longitud + "\n"        +"Speed: " + self.__speed + " Course Status: " + self.__courseStatus + "\n"+"LBS Information \n"        +"MCC: " + self.__MCC + " MNC: " + self.__MNC + "\n"+"LAC: " + self.__LAC + " Cell ID: " + self.__CellID + "\n"+"Terminal Information Content: "+ self.__terminalInfCont+"\n"+"Voltage Level: "+self.__voltageLevel+" GSM Signal Strength: "+self.__GSMsignalStrength+"\n"+"Alarm/Language: "+self.__alarmLanguage+"\n"+"¡QUAK!"
